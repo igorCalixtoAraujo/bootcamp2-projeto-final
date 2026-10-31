@@ -8,7 +8,10 @@ body{
     background-color: #020107;
     color: white;
 
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     padding-top: 30px;
 }
 
@@ -25,6 +28,7 @@ body{
     padding: 10px;
     
     transition-duration: 0.3s;
+
 }
 
 #convert-btn:hover{
@@ -43,4 +47,27 @@ input, select{
 
     margin-top: 10px;
     padding: 3px;
+}
+
+
+#history{
+    background-color: #161229;
+    
+    padding: 15px;
+    
+    text-align: center;
+    width: 30%;
+    
+}
+
+#history hr{
+    margin-top: 15px;
+}
+
+#history-entries{
+    padding: 30px;
+}
+
+#history-entries p{
+    padding: 10px;
 }

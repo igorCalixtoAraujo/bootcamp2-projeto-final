@@ -1,0 +1,23 @@
+{
+  "name": "bootcamp-entrega-final",
+  "version": "1.0.0",
+  "description": "Entrega final para a matéria de bootcamp 2",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/igorCalixtoAraujo/bootcamp2-projeto-final.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/igorCalixtoAraujo/bootcamp2-projeto-final/issues"
+  },
+  "homepage": "https://github.com/igorCalixtoAraujo/bootcamp2-projeto-final#readme",
+  "devDependencies": {
+    "jest": "^30.5.2"
+  }
+}
