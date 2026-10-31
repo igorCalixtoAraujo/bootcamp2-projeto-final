@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Conversor de moedas </title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <h1>Conversor de moedas</h1>
+
+    <div id="origin" class="input_space">
+        <label for="org_coin"> Selecione uma moeda: </label> 
+        <select name="org_coin" id="org_coin">
+            <option value="" disable selected> selecione uma moeda </option>
+        </select>
+        <br>
+        <label for="org_value"> Digite um valor: </label>
+        <input type="number" name="org_value" id="org_value" placeholder="Ex: 49.99">
+    </div>
+    
+    <button id="convert-btn"> converter </button>
+    
+    <div id="converted" class="input_space">
+        <label for="cvt_coin"> Selecione uma moeda: </label> 
+        <select name="cvt_coin" id="cvt_coin">
+            <option value="" disable selected> selecione uma moeda </option>
+        </select>
+        <br>
+        
+        <p style="margin-top: 10px;"> resultado: <span id="result"> 0</span> </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
