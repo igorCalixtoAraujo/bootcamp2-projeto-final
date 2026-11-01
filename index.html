@@ -11,25 +11,31 @@
     <h1>Conversor de moedas</h1>
 
     <div id="origin" class="input_space">
-        <label for="org_coin"> Selecione uma moeda: </label> 
-        <select name="org_coin" id="org_coin">
-            <option value="" disable selected> selecione uma moeda </option>
-        </select>
         <br>
         <label for="org_value"> Digite um valor: </label>
         <input type="number" name="org_value" id="org_value" placeholder="Ex: 49.99">
+
+        <select name="org_coin" id="org_coin">
+            <option value="" disable selected> selecione uma moeda </option>
+        </select>
     </div>
     
     <button id="convert-btn"> converter </button>
     
     <div id="converted" class="input_space">
-        <label for="cvt_coin"> Selecione uma moeda: </label> 
+        <span style="margin-top: 10px;"> resultado: <span id="result"> 0</span> </span>
+
         <select name="cvt_coin" id="cvt_coin">
             <option value="" disable selected> selecione uma moeda </option>
-        </select>
-        <br>
-        
-        <p style="margin-top: 10px;"> resultado: <span id="result"> 0</span> </p>
+        </select>        
+    </div>
+
+    <div id="history">
+        <h2> Histórico de conversões</h2>
+        <hr>
+
+        <div id="history-entries">
+        </div>
     </div>
 
     <script src="script.js"></script>
