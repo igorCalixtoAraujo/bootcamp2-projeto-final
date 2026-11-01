@@ -19,11 +19,14 @@
   },
   "homepage": "https://github.com/igorCalixtoAraujo/bootcamp2-projeto-final#readme",
   "devDependencies": {
-    "jest": "^30.5.2"
+    "jest": "^30.5.2",
+    "supertest": "^7.3.1"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.118.0",
     "axios": "^1.21.0",
     "cors": "^2.8.6",
+    "dotenv": "^18.0.9",
     "express": "^5.3.0"
   }
 }

@@ -1,6 +1,10 @@
+
+require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
+const supabase = require("./supabase");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -8,7 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-// Rota inicial para verificar se o servidor está funcionando
+// Rota inicial
 app.get("/", (req, res) => {
     res.json({ message: "API do conversor funcionando!" });
 });
@@ -22,7 +26,10 @@ app.get("/api/currencies", async (req, res) => {
 
         res.json(response.data);
     } catch (error) {
-        res.status(502).json({ error: "Erro ao consultar moedas." });
+        console.error(error);
+        res.status(502).json({
+            error: "Erro ao consultar moedas."
+        });
     }
 });
 
@@ -30,7 +37,12 @@ app.get("/api/currencies", async (req, res) => {
 app.get("/api/rate", async (req, res) => {
     const { from, to } = req.query;
 
-    if (!from || !to) {
+    if (
+        typeof from !== "string" ||
+        typeof to !== "string" ||
+        !from.trim() ||
+        !to.trim()
+    ) {
         return res.status(400).json({
             error: "Informe as moedas de origem e destino."
         });
@@ -40,7 +52,11 @@ app.get("/api/rate", async (req, res) => {
     const destino = to.toUpperCase();
 
     if (origem === destino) {
-        return res.json({ from: origem, to: destino, rate: 1 });
+        return res.json({
+            from: origem,
+            to: destino,
+            rate: 1
+        });
     }
 
     try {
@@ -70,13 +86,14 @@ app.get("/api/rate", async (req, res) => {
         });
 
     } catch (error) {
+        console.error(error);
         res.status(502).json({
             error: "Não foi possível consultar a cotação."
         });
     }
 });
 
-// Realiza a conversão de moedas
+// Realiza a conversão de moedas e salva no Supabase
 app.post("/api/convert", async (req, res) => {
     const { amount, from, to } = req.body;
 
@@ -84,8 +101,10 @@ app.post("/api/convert", async (req, res) => {
         typeof amount !== "number" ||
         !Number.isFinite(amount) ||
         amount < 0 ||
-        !from ||
-        !to
+        typeof from !== "string" ||
+        typeof to !== "string" ||
+        !from.trim() ||
+        !to.trim()
     ) {
         return res.status(400).json({
             error: "Informe um valor válido e as moedas de origem e destino."
@@ -95,47 +114,92 @@ app.post("/api/convert", async (req, res) => {
     const origem = from.toUpperCase();
     const destino = to.toUpperCase();
 
-    if (origem === destino) {
-        return res.json({
-            amount,
-            from: origem,
-            to: destino,
-            rate: 1,
-            result: Number(amount.toFixed(2))
-        });
-    }
-
     try {
-        const response = await axios.get(
-            "https://api.frankfurter.dev/v1/latest",
-            {
-                params: {
-                    base: origem,
-                    symbols: destino
+        let rate = 1;
+        let date = new Date().toISOString().slice(0, 10);
+
+        // Consulta a API somente se as moedas forem diferentes
+        if (origem !== destino) {
+            const response = await axios.get(
+                "https://api.frankfurter.dev/v1/latest",
+                {
+                    params: {
+                        base: origem,
+                        symbols: destino
+                    }
                 }
+            );
+
+            rate = response.data.rates[destino];
+            date = response.data.date;
+
+            if (!rate) {
+                return res.status(404).json({
+                    error: "Cotação não encontrada."
+                });
             }
-        );
+        }
 
-        const rate = response.data.rates[destino];
+        // Calcula o resultado
+        const result = Number((amount * rate).toFixed(2));
 
-        if (!rate) {
-            return res.status(404).json({
-                error: "Cotação não encontrada."
+        // Salva a conversão no Supabase
+        const { error } = await supabase
+            .from("conversion_history")
+            .insert({
+                amount,
+                from_currency: origem,
+                to_currency: destino,
+                exchange_rate: rate,
+                converted_amount: result
+            });
+
+        if (error) {
+            console.error(error);
+            return res.status(500).json({
+                error: "Conversão realizada, mas não foi possível salvar no histórico."
             });
         }
 
+        // Retorna o resultado
         res.json({
             amount,
             from: origem,
             to: destino,
             rate,
-            result: Number((amount * rate).toFixed(2)),
-            date: response.data.date
+            result,
+            date
         });
 
     } catch (error) {
+        console.error(error);
         res.status(502).json({
             error: "Não foi possível realizar a conversão."
+        });
+    }
+});
+
+// Consulta o histórico de conversões
+app.get("/api/history", async (req, res) => {
+    try {
+        const { data, error } = await supabase
+            .from("conversion_history")
+            .select("*")
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            console.error(error);
+            return res.status(500).json({
+                error: "Não foi possível consultar o histórico."
+            });
+        }
+
+        res.json(data);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({
+            error: "Erro ao consultar o histórico."
         });
     }
 });
