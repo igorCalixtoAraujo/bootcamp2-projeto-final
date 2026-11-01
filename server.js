@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static(__dirname));
+
 
 // Rota inicial
 app.get("/", (req, res) => {
@@ -204,6 +204,8 @@ app.get("/api/history", async (req, res) => {
         });
     }
 });
+
+app.use(express.static(__dirname));
 
 // Inicia o servidor
 if (require.main === module) {
