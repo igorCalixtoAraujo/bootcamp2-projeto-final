@@ -1,24 +1,23 @@
-Igor Calixto Araujo 22609116
-Isaac Leonardo Carneiro Sobral 22607082
-
 # Conversor de Moedas
 
-Aplicação web para conversão de moedas utilizando taxas de câmbio atualizadas por uma API externa, com armazenamento do histórico de conversões em banco de dados.
+Aplicação web para conversão de moedas, utilizando taxas de câmbio obtidas por uma API externa e armazenamento do histórico de conversões em banco de dados.
 
-## Integrantes e divisão das tarefas
+## Integrantes
 
-| Integrante | Matrícula | Responsabilidades |
-|---|---|---|
-| [Nome do integrante 1] | [Matrícula] | [Descrever tarefas realizadas] |
-| [Nome do integrante 2] | [Matrícula] | [Descrever tarefas realizadas] |
+| Nome | Matrícula |
+|---|---|
+| Igor Calixto Araujo | 22609116 |
+| Isaac Leonardo Carneiro Sobral | 22607082 |
+
+O projeto foi desenvolvido em colaboração pelos dois integrantes, desde a implementação das funcionalidades até os testes, integração e documentação.
 
 ## Tecnologias utilizadas
 
 - **Frontend:** HTML, CSS e JavaScript.
 - **Backend:** Node.js e Express.
 - **Banco de dados:** Supabase (PostgreSQL).
-- **API externa:** [Frankfurter API](https://frankfurter.dev/).
-- **Testes:** Jest e Supertest.
+- **API externa:** Frankfurter API.
+- **Testes automatizados:** Jest e Supertest.
 - **Integração contínua:** GitHub Actions.
 - **Containerização:** Docker.
 - **Publicação da imagem:** Docker Hub.
@@ -26,14 +25,14 @@ Aplicação web para conversão de moedas utilizando taxas de câmbio atualizada
 ## Funcionalidades
 
 - Conversão entre diferentes moedas.
-- Consulta de taxas de câmbio por meio de API externa.
+- Consulta de taxas de câmbio por API externa.
 - Listagem de moedas disponíveis.
 - Armazenamento das conversões no Supabase.
 - Consulta do histórico de conversões.
 
-## Estrutura e funcionamento
+## Funcionamento
 
-O frontend é responsável pela interface e interação com o usuário. As solicitações são encaminhadas ao backend, desenvolvido em Node.js com Express.
+O frontend disponibiliza a interface para interação com o usuário. As solicitações são processadas pelo backend, desenvolvido com Node.js e Express.
 
 O backend consulta as taxas de câmbio na API Frankfurter e utiliza o Supabase para armazenar e recuperar o histórico de conversões.
 
@@ -57,9 +56,10 @@ npm install
 Crie um arquivo `.env` na raiz do projeto:
 
 ```env
-SUPABASE_URL=sua_url_do_supabase
-SUPABASE_SECRET_KEY=sua_chave_secreta_do_supabase
+SUPABASE_URL=https://wlwkpkavywghxdszkkyu.supabase.co
+SUPABASE_SECRET_KEY=chave_secreta_do_comentario
 ```
+É necessário substituir "chave_secreta_do_comentario" pela chave screta que enviei no comentário da atividade, por questões de segurança
 
 **4. Inicie a aplicação:**
 
@@ -67,7 +67,7 @@ SUPABASE_SECRET_KEY=sua_chave_secreta_do_supabase
 npm start
 ```
 
-Acesse: http://localhost:3000
+Acesse http://localhost:3000.
 
 ## Rotas da API
 
@@ -81,65 +81,62 @@ Acesse: http://localhost:3000
 
 ## Testes automatizados
 
-Os testes foram implementados utilizando Jest e Supertest.
+O projeto utiliza Jest e Supertest para verificar o funcionamento das funcionalidades.
 
-Para executar:
+Para executar os testes:
 
 ```bash
 npm test
 ```
 
-Atualmente, o projeto possui **7 testes automatizados**, distribuídos em 2 suítes de testes.
+Atualmente, o projeto possui 7 testes automatizados, distribuídos em 2 suítes.
 
 ## Integração contínua (CI)
 
 Foi configurado um workflow em `.github/workflows/ci.yml`, utilizando GitHub Actions.
 
-O workflow executa automaticamente os testes durante a abertura ou atualização de Pull Requests direcionadas à branch `main`.
-
-A integração permite verificar se as alterações passam nos testes antes de serem mescladas.
+Os testes são executados automaticamente durante a abertura e atualização de Pull Requests direcionadas à branch `main`, ajudando a garantir a qualidade das alterações antes da integração.
 
 ## Docker
 
-O projeto possui um `Dockerfile` para construir a imagem da aplicação e um `.dockerignore` para excluir arquivos desnecessários e informações sensíveis da imagem.
+O projeto possui um `Dockerfile` para construção da imagem da aplicação e um `.dockerignore` para excluir arquivos desnecessários e informações sensíveis.
 
-A imagem é publicada automaticamente no Docker Hub por meio do workflow `.github/workflows/docker-publish.yml`, executado após alterações na branch `main`.
+A imagem é publicada automaticamente no Docker Hub por meio do workflow `.github/workflows/docker-publish.yml`, após alterações na branch `main`.
 
-**Imagem no Docker Hub:**
+**Imagem publicada:**
 
-```text
-[USUARIO_DOCKERHUB]/conversor-moedas:latest
-```
+`igorcalixto887/conversor-moedas:latest`
 
-### Como executar a imagem
+### Como executar a imagem Docker
 
 ```bash
 docker run -d \
   --name conversor-moedas \
   -p 3000:3000 \
-  -e SUPABASE_URL="sua_url_do_supabase" \
-  -e SUPABASE_SECRET_KEY="sua_chave_secreta_do_supabase" \
-  [USUARIO_DOCKERHUB]/conversor-moedas:latest
+  -e SUPABASE_URL="https://wlwkpkavywghxdszkkyu.supabase.co" \
+  -e SUPABASE_SECRET_KEY="chave_secreta_do_comentario" \
+  igorcalixto887/conversor-moedas:latest
 ```
 
 A aplicação ficará disponível em http://localhost:3000.
+É necessário substituir "chave_secreta_do_comentario" pela chave screta que enviei no comentário da atividade, por questões de segurança
 
-## Organização do GitHub
+## Organização do desenvolvimento
 
-O desenvolvimento foi organizado por meio de branches e Pull Requests, evitando alterações diretas na branch `main`.
+O desenvolvimento foi realizado utilizando Git e GitHub, com branches específicas para implementação das funcionalidades e Pull Requests para integração das alterações.
 
-As funcionalidades foram desenvolvidas em branches separadas e integradas à branch principal após revisão e aprovação.
+A branch `main` foi protegida para exigir Pull Requests, aprovação de outro integrante e aprovação das verificações automatizadas antes da mesclagem.
 
 ## Evidência de bloqueio de Pull Request
 
-**[PENDENTE: inserir captura de tela]**
+![Evidência de bloqueio da Pull Request](imagens/pr-bloqueada.png)
 
-Nesta etapa, deve ser demonstrado que uma Pull Request com testes falhando é impedida de ser mesclada devido às verificações obrigatórias do GitHub Actions.
-
-## Conflitos de mesclagem
-
-[Informar se ocorreram conflitos durante a integração das branches. Caso não tenham ocorrido, registrar que não houve conflitos.]
+A evidência deve demonstrar que o GitHub impediu a mesclagem devido à falha nos testes automatizados.
 
 ## Repositório
 
-[GitHub — Projeto Conversor de Moedas](https://github.com/igorCalixtoAraujo/bootcamp2-projeto-final)
+[GitHub — Conversor de Moedas](https://github.com/igorCalixtoAraujo/bootcamp2-projeto-final)
+
+## Docker Hub
+
+[Imagem do projeto no Docker Hub](https://hub.docker.com/r/igorcalixto887/conversor-moedas)
