@@ -12,6 +12,7 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+
 // Rota inicial
 app.get("/", (req, res) => {
     res.json({ message: "API do conversor funcionando!" });
@@ -203,6 +204,8 @@ app.get("/api/history", async (req, res) => {
         });
     }
 });
+
+app.use(express.static(__dirname));
 
 // Inicia o servidor
 if (require.main === module) {
