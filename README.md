@@ -133,6 +133,10 @@ A branch `main` foi protegida para exigir Pull Requests, aprovação de outro in
 
 A evidência deve demonstrar que o GitHub impediu a mesclagem devido à falha nos testes automatizados.
 
+## Conflitos de mesclagem
+
+Não houve conflitos de mesclagem durante o desenvolvimento do projeto.
+
 ## Repositório
 
 [GitHub — Conversor de Moedas](https://github.com/igorCalixtoAraujo/bootcamp2-projeto-final)
