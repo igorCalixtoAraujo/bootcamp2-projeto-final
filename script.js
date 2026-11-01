@@ -21,7 +21,7 @@ if (typeof module !== "undefined") {
 
 if (typeof document !== "undefined") {
 
-    const API_URL = "http://localhost:3000";
+    const API_URL = "";
 
     // Elementos da página
     const originInput = document.getElementById("org_value");
